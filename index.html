@@ -1,125 +1,416 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>聂梦雯的小秘密💗</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      background: linear-gradient(135deg, #ffb6c1, #ffe6e6);
-      font-family: "Comic Sans MS", "Segoe UI", sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      color: #ff3366;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      animation: fadeIn 2s ease;
-    }
-
-    .heart {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      cursor: pointer;
-      transform: scale(1);
-      animation: beat 1s infinite;
-    }
-
-    .heart:before,
-    .heart:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 120px;
-      height: 200px;
-      border-radius: 60px 60px 0 0;
-      background: #ff3366;
-    }
-    .heart:before {
-      left: 120px;
-      transform: rotate(-45deg);
-      transform-origin: 0 100%;
-    }
-    .heart:after {
-      left: 0;
-      transform: rotate(45deg);
-      transform-origin: 100% 100%;
-    }
-
-    @keyframes beat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .bubble {
-      position: absolute;
-      bottom: 180px;
-      background: white;
-      border-radius: 20px;
-      padding: 12px 20px;
-      font-size: 1rem;
-      color: #ff3366;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.4s ease;
-    }
-
-    .show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    footer {
-      position: absolute;
-      bottom: 40px;
-      color: #ff6699;
-      font-size: 1.2rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浪漫爱心动画</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .title {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 3em;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+            z-index: 100;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        .subtitle {
+            position: absolute;
+            top: 120px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            z-index: 100;
+        }
+        
+        .instructions {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1em;
+            z-index: 100;
+        }
+        
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: var(--size);
+            height: var(--size);
+            border-radius: 50%;
+            background: var(--color);
+        }
+        
+        .heart::before {
+            left: calc(var(--size) * 0.25);
+        }
+        
+        .heart::after {
+            left: calc(var(--size) * -0.25);
+        }
+        
+        .heart .heart-body {
+            position: absolute;
+            top: calc(var(--size) * 0.25);
+            left: 0;
+            width: var(--size);
+            height: var(--size);
+            background: var(--color);
+            transform: rotate(45deg);
+            border-radius: 10% 10% 10% 0;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 20, 147, 0.9), 
+                           0 0 40px rgba(255, 105, 180, 0.6);
+            }
+        }
+        
+        /* 不同类型的爱心样式 */
+        .heart-type-1 { --color: #ff6b6b; }
+        .heart-type-2 { --color: #ff9ff3; }
+        .heart-type-3 { --color: #f368e0; }
+        .heart-type-4 { --color: #ff9f43; }
+        .heart-type-5 { --color: #54a0ff; }
+        .heart-type-6 { --color: #5f27cd; }
+        .heart-type-7 { --color: #00d2d3; }
+        .heart-type-8 { --color: #ff9ff3; }
+        
+        /* 背景装饰爱心 */
+        .bg-heart {
+            position: absolute;
+            opacity: 0.1;
+            animation: float-bg 20s linear infinite;
+        }
+        
+        @keyframes float-bg {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        
+        /* 控制面板 */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .control-group {
+            margin-bottom: 10px;
+        }
+        
+        .control-group label {
+            display: block;
+            color: white;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .control-group input[type="range"] {
+            width: 150px;
+        }
+        
+        .control-group select {
+            width: 150px;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .stats {
+            color: white;
+            font-size: 12px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <h1>🎀 聂梦雯，有个秘密想告诉你 🎀</h1>
-  <div class="heart" id="heart"></div>
-  <div class="bubble" id="bubble">点我一下呀～❤️</div>
-  <footer>点击爱心查看秘密哦~</footer>
+    <div class="title">💖 浪漫爱心动画 💖</div>
+    <div class="subtitle">点击任意位置创建美丽的爱心动画</div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label>爱心大小: <span id="sizeValue">30px</span></label>
+            <input type="range" id="sizeSlider" min="10" max="80" value="30">
+        </div>
+        <div class="control-group">
+            <label>动画时长: <span id="durationValue">3s</span></label>
+            <input type="range" id="durationSlider" min="1" max="10" value="3" step="0.5">
+        </div>
+        <div class="control-group">
+            <label>爱心类型:</label>
+            <select id="heartType">
+                <option value="random">随机颜色</option>
+                <option value="red">红色系</option>
+                <option value="pink">粉色系</option>
+                <option value="rainbow">彩虹色</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>动画效果:</label>
+            <select id="animationType">
+                <option value="float">漂浮上升</option>
+                <option value="burst">爆发扩散</option>
+                <option value="spiral">螺旋上升</option>
+            </select>
+        </div>
+        <div class="stats">
+            已创建: <span id="heartCount">0</span> 个爱心
+        </div>
+    </div>
+    
+    <div class="instructions">点击页面任意位置创建爱心 | 拖动滑块调整效果</div>
 
-  <script>
-    const msgs = [
-      "你点我干嘛😝",
-      "再点一下试试看😉",
-      "哎呀，你真顽皮😳",
-      "其实有个秘密想告诉你🤫",
-      "我喜欢你💗",
-      "嘻嘻～这下你知道啦(*≧▽≦*)"
-    ];
-    let index = 0;
-    const bubble = document.getElementById("bubble");
-    const heart = document.getElementById("heart");
-
-    heart.addEventListener("click", () => {
-      bubble.classList.add("show");
-      bubble.innerText = msgs[index];
-      index = (index + 1) % msgs.length;
-    });
-  </script>
+    <script>
+        let heartCount = 0;
+        let currentSize = 30;
+        let currentDuration = 3;
+        let currentHeartType = 'random';
+        let currentAnimation = 'float';
+        
+        // 颜色配置
+        const colorSchemes = {
+            random: ['#ff6b6b', '#ff9ff3', '#f368e0', '#ff9f43', '#54a0ff', '#5f27cd', '#00d2d3'],
+            red: ['#ff6b6b', '#ff4757', '#ff3838', '#ff9ff3', '#f368e0'],
+            pink: ['#ff9ff3', '#f368e0', '#ff6b9d', '#ff9f9f', '#ff6b8b'],
+            rainbow: ['#ff6b6b', '#ff9f43', '#feca57', '#48dbfb', '#54a0ff', '#5f27cd', '#00d2d3']
+        };
+        
+        // 初始化控制面板
+        document.getElementById('sizeSlider').addEventListener('input', function(e) {
+            currentSize = parseInt(e.target.value);
+            document.getElementById('sizeValue').textContent = currentSize + 'px';
+        });
+        
+        document.getElementById('durationSlider').addEventListener('input', function(e) {
+            currentDuration = parseFloat(e.target.value);
+            document.getElementById('durationValue').textContent = currentDuration + 's';
+        });
+        
+        document.getElementById('heartType').addEventListener('change', function(e) {
+            currentHeartType = e.target.value;
+        });
+        
+        document.getElementById('animationType').addEventListener('change', function(e) {
+            currentAnimation = e.target.value;
+        });
+        
+        // 创建背景装饰爱心
+        function createBackgroundHearts() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createBackgroundHeart();
+                }, i * 500);
+            }
+        }
+        
+        function createBackgroundHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart bg-heart';
+            
+            const size = Math.random() * 20 + 10;
+            const colors = ['#ff6b6b', '#ff9ff3', '#f368e0'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            heart.style.setProperty('--size', size + 'px');
+            heart.style.setProperty('--color', color);
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            
+            document.body.appendChild(heart);
+            
+            // 动画结束后移除
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.parentNode.removeChild(heart);
+                }
+            }, 30000);
+        }
+        
+        // 创建点击爱心
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            
+            // 随机选择爱心类型
+            const heartTypes = ['heart-type-1', 'heart-type-2', 'heart-type-3', 'heart-type-4', 
+                              'heart-type-5', 'heart-type-6', 'heart-type-7', 'heart-type-8'];
+            const randomType = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+            heart.classList.add(randomType);
+            
+            // 设置大小和颜色
+            heart.style.setProperty('--size', currentSize + 'px');
+            
+            // 根据选择的颜色方案设置颜色
+            const colors = colorSchemes[currentHeartType];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            heart.style.setProperty('--color', color);
+            
+            // 设置位置
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            
+            // 设置动画
+            let animationName = 'float';
+            switch(currentAnimation) {
+                case 'burst':
+                    animationName = 'burst';
+                    break;
+                case 'spiral':
+                    animationName = 'spiral';
+                    break;
+                default:
+                    animationName = 'float';
+            }
+            
+            heart.style.animation = `${animationName} ${currentDuration}s ease-out forwards`;
+            
+            document.body.appendChild(heart);
+            heartCount++;
+            document.getElementById('heartCount').textContent = heartCount;
+            
+            // 动画结束后移除元素
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.parentNode.removeChild(heart);
+                }
+            }, currentDuration * 1000);
+        }
+        
+        // 添加点击事件
+        document.addEventListener('click', function(e) {
+            createHeart(e.clientX, e.clientY);
+            
+            // 创建多个爱心形成簇拥效果
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const offsetX = (Math.random() - 0.5) * 50;
+                    const offsetY = (Math.random() - 0.5) * 50;
+                    createHeart(e.clientX + offsetX, e.clientY + offsetY);
+                }, i * 100);
+            }
+        });
+        
+        // 添加鼠标移动效果（轻微跟随）
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.9) { // 10%的几率创建跟随爱心
+                const offsetX = (Math.random() - 0.5) * 20;
+                const offsetY = (Math.random() - 0.5) * 20;
+                createHeart(e.clientX + offsetX, e.clientY + offsetY);
+            }
+        });
+        
+        // 初始化
+        window.onload = function() {
+            createBackgroundHearts();
+            // 持续创建背景爱心
+            setInterval(createBackgroundHeart, 2000);
+        };
+        
+        // 添加CSS动画关键帧
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes burst {
+                0% {
+                    transform: translate(0, 0) scale(0) rotate(0deg);
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(2) rotate(180deg);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes spiral {
+                0% {
+                    transform: translate(0, 0) scale(0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(${Math.random() * 100 - 50}px, -100px) scale(1.5) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
