@@ -214,11 +214,11 @@
             }
         }
         
-        /* 控制面板 - 修复遮挡问题 */
+        /* 控制面板 - 修复位置问题 */
         .controls {
             position: fixed;
-            top: 10px;
-            left: 10px; /* 改为左侧显示 */
+            top: 80px; /* 往下移动，避免被设置按钮遮挡 */
+            left: 10px;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
@@ -281,11 +281,11 @@
             opacity: 0.8;
         }
         
-        /* 折叠控制面板 */
+        /* 设置按钮 - 固定在左上角 */
         .controls-toggle {
             position: fixed;
             top: 15px;
-            left: 15px; /* 改为左侧 */
+            left: 15px;
             z-index: 1001;
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -296,27 +296,6 @@
             font-size: 12px;
             backdrop-filter: blur(10px);
             -webkit-tap-highlight-color: transparent;
-        }
-        
-        /* 音乐状态指示 */
-        .music-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(76, 175, 80, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
         
         /* 手机端响应式 */
@@ -343,7 +322,7 @@
             
             .controls {
                 transform: scale(0.8);
-                top: 5px;
+                top: 60px; /* 手机端也往下移动 */
                 left: 5px;
                 padding: 10px;
                 max-width: 140px;
@@ -360,13 +339,6 @@
             
             .stats {
                 font-size: 9px;
-            }
-            
-            .music-status {
-                padding: 6px 10px;
-                font-size: 11px;
-                bottom: 15px;
-                right: 15px;
             }
             
             /* 在小屏幕上默认隐藏控制面板 */
@@ -404,8 +376,10 @@
     <div class="name-title">❤️ 献给最爱的聂梦雯 ❤️</div>
     <div class="subtitle">点击任意位置创建美丽的爱心动画</div>
     
+    <!-- 设置按钮在左上角 -->
     <button class="controls-toggle" onclick="toggleControls()">⚙️ 设置</button>
     
+    <!-- 控制面板在设置按钮下方 -->
     <div class="controls" id="controlsPanel">
         <div class="control-group">
             <label>爱心大小: <span id="sizeValue">40px</span></label>
