@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>浪漫爱心动画</title>
+    <title>给聂梦雯的爱心动画</title>
     <style>
         * {
             margin: 0;
@@ -18,79 +18,105 @@
             overflow: hidden;
             cursor: pointer;
             position: relative;
+            touch-action: manipulation;
         }
         
         .title {
             position: absolute;
-            top: 50px;
+            top: 20px;
             left: 0;
             width: 100%;
             text-align: center;
             color: white;
-            font-size: 3em;
+            font-size: 2em;
             text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
             z-index: 100;
             animation: glow 2s ease-in-out infinite alternate;
+            padding: 0 20px;
+        }
+        
+        .name-title {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #ffeb3b;
+            font-size: 1.8em;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            z-index: 100;
+            animation: nameGlow 3s ease-in-out infinite alternate;
+        }
+        
+        .love-message {
+            position: absolute;
+            color: white;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+            z-index: 99;
+            pointer-events: none;
+            animation: messageFloat 8s ease-in-out forwards;
+            text-align: center;
+            font-weight: bold;
         }
         
         .subtitle {
             position: absolute;
-            top: 120px;
+            top: 100px;
             left: 0;
             width: 100%;
             text-align: center;
             color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2em;
+            font-size: 0.9em;
             z-index: 100;
+            padding: 0 20px;
         }
         
         .instructions {
             position: absolute;
-            bottom: 30px;
+            bottom: 20px;
             left: 0;
             width: 100%;
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 1em;
+            font-size: 0.8em;
             z-index: 100;
+            padding: 0 15px;
         }
-        
+
+        /* 修复爱心样式 */
         .heart {
             position: absolute;
             pointer-events: none;
             z-index: 10;
+            width: var(--size);
+            height: var(--size);
+            transform-origin: center;
         }
         
         .heart::before,
         .heart::after {
             content: '';
             position: absolute;
-            top: 0;
-            width: var(--size);
-            height: var(--size);
-            border-radius: 50%;
+            width: calc(var(--size) * 0.5);
+            height: calc(var(--size) * 0.8);
             background: var(--color);
+            border-radius: calc(var(--size) * 0.5) calc(var(--size) * 0.5) 0 0;
         }
         
         .heart::before {
-            left: calc(var(--size) * 0.25);
+            left: calc(var(--size) * 0.5);
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
         }
         
         .heart::after {
-            left: calc(var(--size) * -0.25);
-        }
-        
-        .heart .heart-body {
-            position: absolute;
-            top: calc(var(--size) * 0.25);
             left: 0;
-            width: var(--size);
-            height: var(--size);
-            background: var(--color);
             transform: rotate(45deg);
-            border-radius: 10% 10% 10% 0;
+            transform-origin: 100% 100%;
         }
         
+        /* 爱心动画 */
         @keyframes float {
             0% {
                 transform: translateY(0) rotate(0deg) scale(0);
@@ -105,15 +131,28 @@
             }
         }
         
-        @keyframes pulse {
+        @keyframes burst {
             0% {
-                transform: scale(1);
+                transform: translate(0, 0) scale(0) rotate(0deg);
+                opacity: 1;
             }
             50% {
-                transform: scale(1.1);
+                opacity: 0.8;
             }
             100% {
-                transform: scale(1);
+                transform: translate(var(--burst-x), var(--burst-y)) scale(2) rotate(180deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes spiral {
+            0% {
+                transform: translate(0, 0) scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--spiral-x), -100px) scale(1.5) rotate(720deg);
+                opacity: 0;
             }
         }
         
@@ -127,15 +166,36 @@
             }
         }
         
-        /* 不同类型的爱心样式 */
-        .heart-type-1 { --color: #ff6b6b; }
-        .heart-type-2 { --color: #ff9ff3; }
-        .heart-type-3 { --color: #f368e0; }
-        .heart-type-4 { --color: #ff9f43; }
-        .heart-type-5 { --color: #54a0ff; }
-        .heart-type-6 { --color: #5f27cd; }
-        .heart-type-7 { --color: #00d2d3; }
-        .heart-type-8 { --color: #ff9ff3; }
+        @keyframes nameGlow {
+            from {
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.8),
+                           0 0 25px rgba(255, 165, 0, 0.6);
+            }
+            to {
+                text-shadow: 0 0 25px rgba(255, 215, 0, 1),
+                           0 0 35px rgba(255, 165, 0, 0.8),
+                           0 0 45px rgba(255, 140, 0, 0.6);
+            }
+        }
+        
+        @keyframes messageFloat {
+            0% {
+                transform: translateY(0) scale(0.8);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1);
+            }
+            80% {
+                opacity: 1;
+                transform: translateY(-80px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) scale(0.8);
+            }
+        }
         
         /* 背景装饰爱心 */
         .bg-heart {
@@ -153,58 +213,223 @@
             }
         }
         
-        /* 控制面板 */
+        /* 控制面板 - 手机端优化 */
         .controls {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transform: scale(0.9);
+            transform-origin: top right;
+            transition: all 0.3s ease;
+            max-width: 160px;
+        }
+        
+        .controls:hover {
+            transform: scale(1);
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .control-group {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .control-group label {
             display: block;
             color: white;
-            margin-bottom: 5px;
-            font-size: 12px;
+            margin-bottom: 4px;
+            font-size: 11px;
+            font-weight: bold;
         }
         
         .control-group input[type="range"] {
-            width: 150px;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ff6b9d;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
         
         .control-group select {
-            width: 150px;
-            padding: 5px;
-            border-radius: 5px;
+            width: 100%;
+            padding: 6px 8px;
+            border-radius: 10px;
             border: none;
             background: rgba(255, 255, 255, 0.9);
+            font-size: 11px;
+            outline: none;
         }
         
         .stats {
             color: white;
-            font-size: 12px;
-            margin-top: 10px;
+            font-size: 10px;
+            margin-top: 8px;
             text-align: center;
+            opacity: 0.8;
+        }
+        
+        /* 音乐播放器 - 手机端优化 */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .music-btn {
+            background: rgba(255, 107, 157, 0.9);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 107, 157, 1);
+        }
+        
+        .music-btn.playing {
+            background: #4CAF50;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* 折叠控制面板 */
+        .controls-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        
+        /* 手机端响应式 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.5em;
+                top: 15px;
+            }
+            
+            .name-title {
+                font-size: 1.4em;
+                top: 45px;
+            }
+            
+            .subtitle {
+                font-size: 0.8em;
+                top: 80px;
+            }
+            
+            .instructions {
+                font-size: 0.7em;
+                bottom: 15px;
+            }
+            
+            .controls {
+                transform: scale(0.8);
+                top: 5px;
+                right: 5px;
+                padding: 10px;
+                max-width: 140px;
+            }
+            
+            .control-group label {
+                font-size: 10px;
+            }
+            
+            .control-group select {
+                font-size: 10px;
+                padding: 5px 6px;
+            }
+            
+            .stats {
+                font-size: 9px;
+            }
+            
+            .music-btn {
+                padding: 10px;
+                font-size: 1em;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            /* 在小屏幕上隐藏控制面板，显示切换按钮 */
+            .controls {
+                opacity: 0;
+                pointer-events: none;
+                transform: translateX(100%);
+            }
+            
+            .controls.active {
+                opacity: 1;
+                pointer-events: all;
+                transform: translateX(0) scale(0.8);
+            }
+            
+            .controls-toggle {
+                display: block;
+            }
+        }
+        
+        /* 特殊爱心效果 */
+        .sparkle-heart::before,
+        .sparkle-heart::after {
+            background: linear-gradient(45deg, var(--color), #ffffff);
+        }
+        
+        .gradient-heart::before,
+        .gradient-heart::after {
+            background: linear-gradient(135deg, var(--color1), var(--color2));
         }
     </style>
 </head>
 <body>
     <div class="title">💖 浪漫爱心动画 💖</div>
+    <div class="name-title">❤️ 献给最爱的聂梦雯 ❤️</div>
     <div class="subtitle">点击任意位置创建美丽的爱心动画</div>
     
-    <div class="controls">
+    <button class="controls-toggle" onclick="toggleControls()">⚙️ 设置</button>
+    
+    <div class="controls" id="controlsPanel">
         <div class="control-group">
-            <label>爱心大小: <span id="sizeValue">30px</span></label>
-            <input type="range" id="sizeSlider" min="10" max="80" value="30">
+            <label>爱心大小: <span id="sizeValue">40px</span></label>
+            <input type="range" id="sizeSlider" min="20" max="100" value="40">
         </div>
         <div class="control-group">
             <label>动画时长: <span id="durationValue">3s</span></label>
@@ -217,6 +442,7 @@
                 <option value="red">红色系</option>
                 <option value="pink">粉色系</option>
                 <option value="rainbow">彩虹色</option>
+                <option value="gradient">渐变爱心</option>
             </select>
         </div>
         <div class="control-group">
@@ -232,21 +458,56 @@
         </div>
     </div>
     
-    <div class="instructions">点击页面任意位置创建爱心 | 拖动滑块调整效果</div>
+    <!-- 音乐播放器 - 使用你的歌曲 -->
+    <div class="music-player">
+        <button class="music-btn" onclick="toggleMusic()">🎵</button>
+        <audio id="bgMusic" loop>
+            <!-- 你的网易云歌曲链接 -->
+            <source src="https://music.163.com/song/media/outer/url?id=1391425499.mp3" type="audio/mpeg">
+            <!-- 备用链接 -->
+            <source src="http://music.163.com/song/media/outer/url?id=1391425499.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+    
+    <div class="instructions">点击页面任意位置创建爱心 | 点击🎵播放音乐</div>
 
     <script>
         let heartCount = 0;
-        let currentSize = 30;
+        let currentSize = 40;
         let currentDuration = 3;
         let currentHeartType = 'random';
         let currentAnimation = 'float';
+        let isMusicPlaying = false;
+        
+        // 爱的话语列表
+        const loveMessages = [
+            "💖 聂梦雯，你是我的全世界 💖",
+            "🌟 最可爱漂亮的公主殿下 🌟",
+            "😍 爱你一万年，我的宝贝 😍",
+            "💕 你是我心中最美的风景 💕",
+            "🎀 最迷人纯净的媳妇儿 🎀",
+            "✨ 遇见你是我最大的幸运 ✨",
+            "🌹 你是我永远的公主 🌹",
+            "💝 每一天都更爱你一些 💝",
+            "🎉 你让我的世界充满色彩 🎉",
+            "💫 永远爱你的小可爱 💫",
+            "🌸 你是我最美的梦 🌸",
+            "💞 我的心只为你跳动 💞",
+            "🎵 爱你到天荒地老 🎵",
+            "💗 你是我生命中的光 💗",
+            "🌺 最温柔可爱的宝贝 🌺",
+            "💘 永远守护你，我的爱人 💘",
+            "🎈 你是我的一切 🎈",
+            "💓 爱你胜过爱自己 💓"
+        ];
         
         // 颜色配置
         const colorSchemes = {
             random: ['#ff6b6b', '#ff9ff3', '#f368e0', '#ff9f43', '#54a0ff', '#5f27cd', '#00d2d3'],
-            red: ['#ff6b6b', '#ff4757', '#ff3838', '#ff9ff3', '#f368e0'],
-            pink: ['#ff9ff3', '#f368e0', '#ff6b9d', '#ff9f9f', '#ff6b8b'],
-            rainbow: ['#ff6b6b', '#ff9f43', '#feca57', '#48dbfb', '#54a0ff', '#5f27cd', '#00d2d3']
+            red: ['#ff6b6b', '#ff4757', '#ff3838', '#ff4d4d', '#ff6b8b'],
+            pink: ['#ff9ff3', '#f368e0', '#ff6b9d', '#ff85a1', '#ff6b8b'],
+            rainbow: ['#ff6b6b', '#ff9f43', '#feca57', '#48dbfb', '#54a0ff', '#5f27cd', '#00d2d3'],
+            gradient: ['#ff6b6b-#ff9f43', '#ff9ff3-#ff6b9d', '#54a0ff-#48dbfb', '#f368e0-#5f27cd']
         };
         
         // 初始化控制面板
@@ -268,12 +529,97 @@
             currentAnimation = e.target.value;
         });
         
+        // 切换控制面板显示
+        function toggleControls() {
+            const controls = document.getElementById('controlsPanel');
+            controls.classList.toggle('active');
+        }
+        
+        // 创建爱的话语
+        function createLoveMessage(x, y) {
+            if (Math.random() > 0.3) return; // 70%的几率不创建文字
+            
+            const message = document.createElement('div');
+            message.className = 'love-message';
+            message.textContent = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            
+            message.style.left = (x - 100) + 'px';
+            message.style.top = y + 'px';
+            
+            document.body.appendChild(message);
+            
+            // 动画结束后移除
+            setTimeout(() => {
+                if (message.parentNode) {
+                    message.parentNode.removeChild(message);
+                }
+            }, 8000);
+        }
+        
+        // 音乐控制
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.querySelector('.music-btn');
+            
+            if (isMusicPlaying) {
+                music.pause();
+                btn.classList.remove('playing');
+                isMusicPlaying = false;
+            } else {
+                const playPromise = music.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        btn.classList.add('playing');
+                        isMusicPlaying = true;
+                    }).catch(error => {
+                        console.log('音乐播放失败:', error);
+                        // 尝试切换链接
+                        switchMusicSource();
+                    });
+                }
+            }
+        }
+        
+        // 切换音乐源
+        function switchMusicSource() {
+            const music = document.getElementById('bgMusic');
+            const sources = music.querySelectorAll('source');
+            let currentSource = 0;
+            
+            // 找到当前源
+            for (let i = 0; i < sources.length; i++) {
+                if (music.src.includes(sources[i].src)) {
+                    currentSource = i;
+                    break;
+                }
+            }
+            
+            // 切换到下一个源
+            const nextSource = (currentSource + 1) % sources.length;
+            music.src = sources[nextSource].src;
+            music.load();
+            
+            console.log('切换到备用音乐源');
+            
+            // 尝试播放新源
+            setTimeout(() => {
+                music.play().then(() => {
+                    document.querySelector('.music-btn').classList.add('playing');
+                    isMusicPlaying = true;
+                }).catch(e => {
+                    console.log('备用音乐源也失败');
+                    alert('音乐加载失败，可能是版权限制，但爱心动画依然美丽！💕');
+                });
+            }, 500);
+        }
+        
         // 创建背景装饰爱心
         function createBackgroundHearts() {
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 15; i++) {
                 setTimeout(() => {
                     createBackgroundHeart();
-                }, i * 500);
+                }, i * 300);
             }
         }
         
@@ -281,7 +627,7 @@
             const heart = document.createElement('div');
             heart.className = 'heart bg-heart';
             
-            const size = Math.random() * 20 + 10;
+            const size = Math.random() * 30 + 20;
             const colors = ['#ff6b6b', '#ff9ff3', '#f368e0'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             
@@ -289,17 +635,16 @@
             heart.style.setProperty('--color', color);
             
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDuration = (Math.random() * 10 + 15) + 's';
             heart.style.animationDelay = Math.random() * 5 + 's';
             
             document.body.appendChild(heart);
             
-            // 动画结束后移除
             setTimeout(() => {
                 if (heart.parentNode) {
                     heart.parentNode.removeChild(heart);
                 }
-            }, 30000);
+            }, 25000);
         }
         
         // 创建点击爱心
@@ -307,32 +652,48 @@
             const heart = document.createElement('div');
             heart.className = 'heart';
             
-            // 随机选择爱心类型
-            const heartTypes = ['heart-type-1', 'heart-type-2', 'heart-type-3', 'heart-type-4', 
-                              'heart-type-5', 'heart-type-6', 'heart-type-7', 'heart-type-8'];
-            const randomType = heartTypes[Math.floor(Math.random() * heartTypes.length)];
-            heart.classList.add(randomType);
-            
-            // 设置大小和颜色
+            // 设置大小
             heart.style.setProperty('--size', currentSize + 'px');
             
-            // 根据选择的颜色方案设置颜色
+            // 设置颜色
             const colors = colorSchemes[currentHeartType];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            heart.style.setProperty('--color', color);
+            let color = colors[Math.floor(Math.random() * colors.length)];
+            
+            if (currentHeartType === 'gradient') {
+                // 处理渐变颜色
+                const [color1, color2] = color.split('-');
+                heart.style.setProperty('--color1', color1);
+                heart.style.setProperty('--color2', color2);
+                heart.classList.add('gradient-heart');
+            } else {
+                heart.style.setProperty('--color', color);
+                
+                // 随机添加闪光效果
+                if (Math.random() > 0.7) {
+                    heart.classList.add('sparkle-heart');
+                }
+            }
             
             // 设置位置
-            heart.style.left = x + 'px';
-            heart.style.top = y + 'px';
+            heart.style.left = (x - currentSize / 2) + 'px';
+            heart.style.top = (y - currentSize / 2) + 'px';
             
             // 设置动画
             let animationName = 'float';
+            let animationProperties = '';
+            
             switch(currentAnimation) {
                 case 'burst':
                     animationName = 'burst';
+                    const burstX = (Math.random() * 200 - 100) + 'px';
+                    const burstY = (Math.random() * 200 - 100) + 'px';
+                    heart.style.setProperty('--burst-x', burstX);
+                    heart.style.setProperty('--burst-y', burstY);
                     break;
                 case 'spiral':
                     animationName = 'spiral';
+                    const spiralX = (Math.random() * 100 - 50) + 'px';
+                    heart.style.setProperty('--spiral-x', spiralX);
                     break;
                 default:
                     animationName = 'float';
@@ -355,63 +716,59 @@
         // 添加点击事件
         document.addEventListener('click', function(e) {
             createHeart(e.clientX, e.clientY);
+            createLoveMessage(e.clientX, e.clientY);
             
             // 创建多个爱心形成簇拥效果
-            for (let i = 0; i < 3; i++) {
+            const heartCount = Math.floor(Math.random() * 4) + 2;
+            for (let i = 0; i < heartCount; i++) {
                 setTimeout(() => {
-                    const offsetX = (Math.random() - 0.5) * 50;
-                    const offsetY = (Math.random() - 0.5) * 50;
+                    const offsetX = (Math.random() - 0.5) * 80;
+                    const offsetY = (Math.random() - 0.5) * 80;
                     createHeart(e.clientX + offsetX, e.clientY + offsetY);
-                }, i * 100);
+                }, i * 80);
             }
         });
         
-        // 添加鼠标移动效果（轻微跟随）
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() > 0.9) { // 10%的几率创建跟随爱心
-                const offsetX = (Math.random() - 0.5) * 20;
-                const offsetY = (Math.random() - 0.5) * 20;
-                createHeart(e.clientX + offsetX, e.clientY + offsetY);
+        // 添加触摸事件（移动端）
+        document.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            createHeart(touch.clientX, touch.clientY);
+            createLoveMessage(touch.clientX, touch.clientY);
+            
+            const heartCount = Math.floor(Math.random() * 3) + 1;
+            for (let i = 0; i < heartCount; i++) {
+                setTimeout(() => {
+                    const offsetX = (Math.random() - 0.5) * 60;
+                    const offsetY = (Math.random() - 0.5) * 60;
+                    createHeart(touch.clientX + offsetX, touch.clientY + offsetY);
+                }, i * 60);
             }
-        });
+        }, { passive: false });
         
         // 初始化
         window.onload = function() {
             createBackgroundHearts();
-            // 持续创建背景爱心
-            setInterval(createBackgroundHeart, 2000);
-        };
-        
-        // 添加CSS动画关键帧
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes burst {
-                0% {
-                    transform: translate(0, 0) scale(0) rotate(0deg);
-                    opacity: 1;
-                }
-                50% {
-                    opacity: 0.8;
-                }
-                100% {
-                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(2) rotate(180deg);
-                    opacity: 0;
-                }
-            }
+            setInterval(createBackgroundHeart, 1500);
             
-            @keyframes spiral {
-                0% {
-                    transform: translate(0, 0) scale(0) rotate(0deg);
-                    opacity: 1;
+            // 初始创建一些爱心和文字
+            setTimeout(() => {
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const x = Math.random() * window.innerWidth;
+                        const y = Math.random() * window.innerHeight;
+                        createHeart(x, y);
+                        if (i % 2 === 0) {
+                            createLoveMessage(x, y);
+                        }
+                    }, i * 300);
                 }
-                100% {
-                    transform: translate(${Math.random() * 100 - 50}px, -100px) scale(1.5) rotate(720deg);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
+            }, 1000);
+            
+            // 预加载音乐
+            const music = document.getElementById('bgMusic');
+            music.load();
+        };
     </script>
 </body>
 </html>
-
