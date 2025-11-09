@@ -1,171 +1,77 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>聂梦雯的小心心💖</title>
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: radial-gradient(circle at 20% 20%, #ffe0f0, #ffc5e0, #ffb6d9);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: "Comic Sans MS", "Arial Rounded MT", "PingFang SC", sans-serif;
-    color: #fff;
-  }
-  h1 {
-    font-size: 28px;
-    color: #ff4d94;
-    text-shadow: 0 2px 4px rgba(255, 0, 120, 0.2);
-    margin-bottom: 20px;
-    animation: floatText 3s ease-in-out infinite;
-  }
-  @keyframes floatText {
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-6px)}
-  }
-
-  .heart {
-    position: relative;
-    width: 140px;
-    height: 140px;
-    transform: rotate(-45deg);
-    background: radial-gradient(circle at 30% 30%, #ff7eb9, #ff4f8b);
-    box-shadow: 0 0 30px rgba(255, 80, 150, 0.4);
-    animation: beat 1s infinite ease-in-out;
-  }
-  .heart:before,
-  .heart:after {
-    content: "";
-    position: absolute;
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ff7eb9, #ff4f8b);
-  }
-  .heart:before {
-    top: -70px;
-    left: 0;
-  }
-  .heart:after {
-    left: 70px;
-    top: 0;
-  }
-
-  @keyframes beat {
-    0%, 100% { transform: rotate(-45deg) scale(1); }
-    50% { transform: rotate(-45deg) scale(1.15); }
-  }
-
-  .btn {
-    margin-top: 40px;
-    background: linear-gradient(90deg, #ff85b3, #ff4d94);
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 16px;
-    box-shadow: 0 4px 14px rgba(255, 80, 130, 0.3);
-    transition: transform 0.15s;
-  }
-  .btn:active { transform: scale(0.96); }
-
-  /* 飘动小心心 */
-  .small-heart {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(145deg, #ff91c1, #ff4d94);
-    transform: rotate(-45deg);
-    opacity: 0.8;
-    border-radius: 4px;
-    animation: floatUp 3s linear forwards;
-  }
-  .small-heart::before,
-  .small-heart::after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(145deg, #ff91c1, #ff4d94);
-    border-radius: 50%;
-  }
-  .small-heart::before { top: -10px; left: 0; }
-  .small-heart::after { top: 0; left: 10px; }
-
-  @keyframes floatUp {
-    0% {
-      transform: translateY(0) scale(1) rotate(-45deg);
-      opacity: 0.9;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>给聂梦雯的小秘密💗</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffe6e6, #ffcccc);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: "Comic Sans MS", "Segoe UI", sans-serif;
+      overflow: hidden;
     }
-    100% {
-      transform: translateY(-220px) scale(0.6) rotate(-45deg);
-      opacity: 0;
+    .heart {
+      position: relative;
+      width: 100px;
+      height: 90px;
+      cursor: pointer;
+      animation: beat 1s infinite;
     }
-  }
-
-  /* 可爱星星闪烁背景 */
-  .star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.7;
-    animation: twinkle 2s infinite ease-in-out alternate;
-  }
-  @keyframes twinkle {
-    from { transform: scale(0.8); opacity: 0.4; }
-    to { transform: scale(1.2); opacity: 1; }
-  }
-
-  footer {
-    position: absolute;
-    bottom: 20px;
-    font-size: 14px;
-    color: #fffafc;
-    text-shadow: 0 2px 4px rgba(255, 100, 160, 0.4);
-  }
-</style>
+    .heart:before,
+    .heart:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 100px;
+      height: 160px;
+      border-radius: 50px 50px 0 0;
+      background: #ff4d6d;
+    }
+    .heart:before {
+      left: 100px;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+    .heart:after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    h2 {
+      color: #ff4d6d;
+      margin-top: 30px;
+      font-size: 1.5rem;
+    }
+  </style>
 </head>
 <body>
-  <h1>💞 聂梦雯，这是给你的心心 💞</h1>
   <div class="heart" id="heart"></div>
-  <button class="btn" id="loveBtn">点我爱你 💗</button>
-  <footer>—— 来自偷偷爱你的那个人 💌</footer>
+  <h2 id="msg">点我一下，有惊喜🤭</h2>
 
-<script>
-  const btn = document.getElementById('loveBtn');
-  const heart = document.getElementById('heart');
-  const body = document.body;
-
-  // 点击生成飘心
-  btn.addEventListener('click', () => {
-    for (let i = 0; i < 8; i++) {
-      const small = document.createElement('div');
-      small.className = 'small-heart';
-      small.style.left = 50 + Math.random() * 200 - 100 + 'px';
-      small.style.top = 0 + Math.random() * 40 + 'px';
-      small.style.animationDelay = (Math.random() * 0.5) + 's';
-      small.style.transform = `rotate(-45deg) scale(${0.8 + Math.random() * 0.4})`;
-      heart.appendChild(small);
-      setTimeout(() => small.remove(), 3000);
-    }
-  });
-
-  // 随机生成背景星星
-  for (let i = 0; i < 60; i++) {
-    const star = document.createElement('div');
-    star.classList.add('star');
-    star.style.width = star.style.height = Math.random() * 3 + 'px';
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.animationDelay = (Math.random() * 3) + 's';
-    body.appendChild(star);
-  }
-</script>
+  <script>
+    const msgs = [
+      "你点我干嘛😝",
+      "再点一下试试？😉",
+      "哎呀，被你发现了😳",
+      "其实有个秘密想告诉你…🤫",
+      "我喜欢你💗",
+      "嘻嘻～这下你知道啦～(*≧▽≦)"
+    ];
+    let index = 0;
+    const msg = document.getElementById("msg");
+    document.getElementById("heart").onclick = function() {
+      msg.innerText = msgs[index];
+      index = (index + 1) % msgs.length;
+    };
+  </script>
 </body>
 </html>
