@@ -214,11 +214,11 @@
             }
         }
         
-        /* 控制面板 - 手机端优化 */
+        /* 控制面板 - 修复遮挡问题 */
         .controls {
             position: fixed;
             top: 10px;
-            right: 10px;
+            left: 10px; /* 改为左侧显示 */
             z-index: 1000;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
@@ -227,7 +227,7 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transform: scale(0.9);
-            transform-origin: top right;
+            transform-origin: top left;
             transition: all 0.3s ease;
             max-width: 160px;
         }
@@ -281,48 +281,11 @@
             opacity: 0.8;
         }
         
-        /* 音乐播放器 - 手机端优化 */
-        .music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        
-        .music-btn {
-            background: rgba(255, 107, 157, 0.9);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .music-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .music-btn.playing {
-            background: #4CAF50;
-            animation: pulse 1s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
         /* 折叠控制面板 */
         .controls-toggle {
             position: fixed;
             top: 15px;
-            right: 15px;
+            left: 15px; /* 改为左侧 */
             z-index: 1001;
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -333,6 +296,27 @@
             font-size: 12px;
             backdrop-filter: blur(10px);
             -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* 音乐状态指示 */
+        .music-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
         /* 手机端响应式 */
@@ -360,7 +344,7 @@
             .controls {
                 transform: scale(0.8);
                 top: 5px;
-                right: 5px;
+                left: 5px;
                 padding: 10px;
                 max-width: 140px;
             }
@@ -378,24 +362,24 @@
                 font-size: 9px;
             }
             
-            .music-btn {
-                padding: 10px;
-                font-size: 1em;
+            .music-status {
+                padding: 6px 10px;
+                font-size: 11px;
                 bottom: 15px;
                 right: 15px;
             }
             
-            /* 在小屏幕上默认显示控制面板 */
+            /* 在小屏幕上默认隐藏控制面板 */
             .controls {
+                opacity: 0;
+                pointer-events: none;
+                transform: translateX(-100%) scale(0.8);
+            }
+            
+            .controls.active {
                 opacity: 1;
                 pointer-events: all;
                 transform: translateX(0) scale(0.8);
-            }
-            
-            .controls.hidden {
-                opacity: 0;
-                pointer-events: none;
-                transform: translateX(100%) scale(0.8);
             }
             
             .controls-toggle {
@@ -412,27 +396,6 @@
         .gradient-heart::before,
         .gradient-heart::after {
             background: linear-gradient(135deg, var(--color1), var(--color2));
-        }
-
-        /* 音乐提示 */
-        .music-tip {
-            position: fixed;
-            bottom: 70px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: 12px;
-            z-index: 1000;
-            animation: fadeOut 3s forwards;
-            pointer-events: none;
-        }
-
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            70% { opacity: 1; }
-            100% { opacity: 0; }
         }
     </style>
 </head>
@@ -474,17 +437,13 @@
             已创建: <span id="heartCount">0</span> 个爱心
         </div>
     </div>
+
+    <!-- 隐藏的音乐播放器 -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="https://music.163.com/song/media/outer/url?id=1391425499.mp3" type="audio/mpeg">
+    </audio>
     
-    <!-- 音乐播放器 -->
-    <div class="music-player">
-        <button class="music-btn" id="musicButton">🎵</button>
-        <audio id="bgMusic" loop>
-            <!-- 网易云音乐链接 -->
-            <source src="https://music.163.com/song/media/outer/url?id=1391425499.mp3" type="audio/mpeg">
-        </audio>
-    </div>
-    
-    <div class="instructions">点击页面任意位置创建爱心 | 点击🎵播放音乐</div>
+    <div class="instructions">点击页面任意位置创建爱心 | 音乐自动播放中</div>
 
     <script>
         let heartCount = 0;
@@ -492,7 +451,6 @@
         let currentDuration = 3;
         let currentHeartType = 'random';
         let currentAnimation = 'float';
-        let isMusicPlaying = false;
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         // 爱的话语列表
@@ -548,51 +506,34 @@
         // 切换控制面板显示
         function toggleControls() {
             const controls = document.getElementById('controlsPanel');
-            controls.classList.toggle('hidden');
+            controls.classList.toggle('active');
         }
         
-        // 显示音乐提示
-        function showMusicTip(message) {
-            const tip = document.createElement('div');
-            tip.className = 'music-tip';
-            tip.textContent = message;
-            document.body.appendChild(tip);
-            
-            setTimeout(() => {
-                if (tip.parentNode) {
-                    tip.parentNode.removeChild(tip);
-                }
-            }, 3000);
-        }
-        
-        // 音乐控制
-        function toggleMusic() {
+        // 自动播放音乐
+        function autoPlayMusic() {
             const music = document.getElementById('bgMusic');
-            const btn = document.getElementById('musicButton');
             
-            if (isMusicPlaying) {
-                music.pause();
-                btn.classList.remove('playing');
-                isMusicPlaying = false;
-                showMusicTip('音乐已暂停');
-            } else {
-                // 手机端需要用户明确交互
-                const playPromise = music.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        btn.classList.add('playing');
-                        isMusicPlaying = true;
-                        showMusicTip('音乐播放中 🎵');
-                    }).catch(error => {
-                        console.log('音乐播放失败:', error);
-                        if (isMobile) {
-                            showMusicTip('请先点击页面任意位置');
-                        } else {
-                            showMusicTip('音乐加载失败，请重试');
-                        }
-                    });
-                }
+            // 预加载音乐
+            music.load();
+            
+            // 尝试自动播放
+            const playPromise = music.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('音乐自动播放成功');
+                }).catch(error => {
+                    console.log('自动播放失败:', error);
+                    // 如果自动播放失败，在用户交互后重试
+                    document.addEventListener('click', function retryPlay() {
+                        music.play().then(() => {
+                            console.log('用户交互后播放成功');
+                        }).catch(e => {
+                            console.log('用户交互后播放也失败');
+                        });
+                        document.removeEventListener('click', retryPlay);
+                    }, { once: true });
+                });
             }
         }
         
@@ -737,7 +678,7 @@
         // 添加触摸事件（移动端）
         document.addEventListener('touchstart', function(e) {
             // 防止触摸控制面板区域触发爱心
-            if (!e.target.closest('.controls') && !e.target.closest('.controls-toggle') && !e.target.closest('.music-btn')) {
+            if (!e.target.closest('.controls') && !e.target.closest('.controls-toggle')) {
                 e.preventDefault();
                 const touch = e.touches[0];
                 createHeart(touch.clientX, touch.clientY);
@@ -759,8 +700,8 @@
             createBackgroundHearts();
             setInterval(createBackgroundHeart, 1500);
             
-            // 绑定音乐按钮事件
-            document.getElementById('musicButton').addEventListener('click', toggleMusic);
+            // 自动播放音乐
+            autoPlayMusic();
             
             // 初始创建一些爱心和文字
             setTimeout(() => {
@@ -775,17 +716,6 @@
                     }, i * 300);
                 }
             }, 1000);
-            
-            // 预加载音乐
-            const music = document.getElementById('bgMusic');
-            music.load();
-            
-            // 手机端提示
-            if (isMobile) {
-                setTimeout(() => {
-                    showMusicTip('点击右下角🎵播放音乐');
-                }, 2000);
-            }
         };
     </script>
 </body>
